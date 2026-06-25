@@ -1,0 +1,80 @@
+<div class="flex h-screen w-screen overflow-hidden bg-surface">
+  <!-- Sidebar -->
+  <aside
+    class="flex flex-col border-r border-slate-200 bg-slate-950 text-white transition-all"
+    [class.w-64]="sidebarAbierto()"
+    [class.w-20]="!sidebarAbierto()"
+  >
+    <div class="flex h-16 items-center gap-2 px-5">
+      <div
+        class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-brand-400 to-accent-500 text-lg"
+      >
+        💊
+      </div>
+      @if (sidebarAbierto()) {
+        <span class="text-lg font-bold tracking-tight">PharmaDash</span>
+      }
+    </div>
+
+    <nav class="mt-4 flex-1 space-y-1 px-3">
+      @for (item of navItems; track item.path) {
+        <a
+          [routerLink]="item.path"
+          routerLinkActive="bg-white/10 text-white"
+          class="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-300 transition hover:bg-white/5 hover:text-white"
+        >
+          <app-icon [name]="item.icon" [size]="20" />
+          @if (sidebarAbierto()) {
+            <span>{{ item.label }}</span>
+          }
+        </a>
+      }
+    </nav>
+
+    <button
+      type="button"
+      (click)="authService.logout()"
+      class="mx-3 mb-4 flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-300 transition hover:bg-rose-500/10 hover:text-rose-300"
+    >
+      <app-icon name="logout" [size]="20" />
+      @if (sidebarAbierto()) {
+        <span>Cerrar sesión</span>
+      }
+    </button>
+  </aside>
+
+  <!-- Main column -->
+  <div class="flex flex-1 flex-col overflow-hidden">
+    <!-- Topbar -->
+    <header
+      class="flex h-16 shrink-0 items-center justify-between border-b border-slate-200 bg-white px-6"
+    >
+      <button
+        type="button"
+        (click)="alternarSidebar()"
+        class="flex h-9 w-9 items-center justify-center rounded-lg text-slate-500 hover:bg-slate-100"
+      >
+        <app-icon name="grid" [size]="18" />
+      </button>
+
+      <div class="flex items-center gap-3">
+        <div class="text-right">
+          <p class="text-sm font-semibold text-slate-800">
+            {{ authService.usuario()?.nombre }}
+          </p>
+          <p class="text-xs text-slate-400">{{ authService.rolActual() }}</p>
+        </div>
+        <div
+          class="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-brand-400 to-accent-500 text-sm font-bold text-white"
+        >
+          {{ authService.usuario()?.nombre?.charAt(0) ?? '?' }}
+        </div>
+      </div>
+    </header>
+
+    <!-- Page content -->
+    <main class="flex-1 overflow-y-auto p-6">
+      <router-outlet />
+    </main>
+  </div>
+</div>
