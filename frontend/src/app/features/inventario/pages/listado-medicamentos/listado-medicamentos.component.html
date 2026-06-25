@@ -1,0 +1,138 @@
+<div class="mb-6 flex flex-wrap items-center justify-between gap-4">
+  <div>
+    <h1 class="text-2xl font-bold text-slate-800">Inventario</h1>
+    <p class="text-sm text-slate-500">Gestiona el catálogo de medicamentos de la farmacia</p>
+  </div>
+
+  <button
+    type="button"
+    (click)="abrirNuevo()"
+    class="flex items-center gap-2 rounded-xl bg-gradient-to-r from-brand-500 to-accent-500 px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-brand-500/20 transition hover:opacity-90"
+  >
+    <app-icon name="plus" [size]="18" />
+    Nuevo medicamento
+  </button>
+</div>
+
+<div class="mb-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+  <div class="mb-3 flex flex-wrap gap-3">
+    <div class="relative flex-1 min-w-[220px]">
+      <app-icon
+        name="search"
+        [size]="16"
+        class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
+      />
+      <input
+        type="text"
+        [(ngModel)]="filtroNombre"
+        (keyup.enter)="buscar()"
+        placeholder="Buscar por nombre..."
+        class="w-full rounded-xl border border-slate-200 bg-slate-50 py-2.5 pl-9 pr-3 text-sm text-slate-700 outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-400/20"
+      />
+    </div>
+
+    <button
+      type="button"
+      (click)="buscar()"
+      class="rounded-xl bg-slate-800 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-700"
+    >
+      Filtrar
+    </button>
+  </div>
+
+  <app-categoria-chips
+    [categorias]="categorias()"
+    [categoriaActiva]="categoriaActiva()"
+    (seleccionar)="seleccionarCategoria($event)"
+  />
+</div>
+
+<div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+  <table class="w-full text-left text-sm">
+    <thead class="bg-slate-50 text-xs font-semibold uppercase tracking-wide text-slate-500">
+      <tr>
+        <th class="px-5 py-3">Medicamento</th>
+        <th class="px-5 py-3">Categoría</th>
+        <th class="px-5 py-3">SKU</th>
+        <th class="px-5 py-3">Precio</th>
+        <th class="px-5 py-3">Stock</th>
+        <th class="px-5 py-3">Vencimiento</th>
+        <th class="px-5 py-3 text-right">Acciones</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-slate-100">
+      @for (medicamento of medicamentos(); track medicamento.id) {
+        <tr class="transition hover:bg-slate-50/80">
+          <td class="px-5 py-3 font-medium text-slate-800">{{ medicamento.nombre }}</td>
+          <td class="px-5 py-3 text-slate-500">{{ medicamento.categoria }}</td>
+          <td class="px-5 py-3 font-mono text-xs text-slate-400">{{ medicamento.sku }}</td>
+          <td class="px-5 py-3 text-slate-700">
+            {{ medicamento.precioUnitario | number: '1.2-2' }}
+          </td>
+          <td class="px-5 py-3">
+            <div class="flex items-center gap-2">
+              <span class="font-semibold text-slate-700">{{ medicamento.stock }}</span>
+              @if (medicamento.stockCritico) {
+                <app-alerta-badge tipo="critico" texto="Stock crítico" />
+              }
+            </div>
+          </td>
+          <td class="px-5 py-3">
+            <div class="flex items-center gap-2">
+              <span class="text-slate-500">{{ medicamento.fechaVencimiento }}</span>
+              @if (medicamento.vencimientoProximo) {
+                <app-alerta-badge tipo="vencimiento" texto="Vence pronto" />
+              }
+            </div>
+          </td>
+          <td class="px-5 py-3 text-right">
+            <div class="flex items-center justify-end gap-2">
+              <button
+                type="button"
+                (click)="abrirEditar(medicamento)"
+                class="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition hover:bg-brand-50 hover:text-brand-600"
+              >
+                <app-icon name="edit" [size]="16" />
+              </button>
+              <button
+                type="button"
+                (click)="eliminar(medicamento)"
+                class="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition hover:bg-rose-50 hover:text-rose-600"
+              >
+                <app-icon name="trash" [size]="16" />
+              </button>
+            </div>
+          </td>
+        </tr>
+      } @empty {
+        <tr>
+          <td colspan="7" class="px-5 py-10 text-center text-slate-400">
+            {{ cargando() ? 'Cargando...' : 'No se encontraron medicamentos' }}
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+
+  <div class="border-t border-slate-100 px-3">
+    <app-paginador
+      [pagina]="pagina()"
+      [totalPaginas]="totalPaginas()"
+      [total]="total()"
+      (cambiarPagina)="irAPagina($event)"
+    />
+  </div>
+</div>
+
+@if (modalAbierto()) {
+  <app-modal
+    [titulo]="medicamentoIdEnEdicion ? 'Editar medicamento' : 'Nuevo medicamento'"
+    (cerrar)="cerrarModal()"
+  >
+    <app-form-medicamento
+      [medicamentoId]="medicamentoIdEnEdicion"
+      (guardado)="guardadoExitoso()"
+      (cancelado)="cerrarModal()"
+    />
+  </app-modal>
+}

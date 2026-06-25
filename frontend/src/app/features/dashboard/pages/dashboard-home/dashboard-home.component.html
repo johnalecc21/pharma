@@ -1,0 +1,40 @@
+<div class="mb-6">
+  <h1 class="text-2xl font-bold text-slate-800">Hola, {{ authService.usuario()?.nombre }} 👋</h1>
+  <p class="text-sm text-slate-500">Resumen de tu farmacia en tiempo real</p>
+</div>
+
+<div class="mb-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+  <app-kpi-card
+    titulo="Ingresos de hoy"
+    [valor]="(kpis()?.ingresosHoy ?? 0) | number: '1.2-2'"
+    descripcion="Total vendido en el día actual"
+    icono="cash"
+    variante="brand"
+  />
+  <app-kpi-card
+    titulo="Stock crítico"
+    [valor]="kpis()?.stockCriticoCount ?? 0"
+    descripcion="Productos con menos de 10 unidades"
+    icono="alert"
+    variante="rose"
+  />
+  <app-kpi-card
+    titulo="Próximos a vencer"
+    [valor]="kpis()?.vencimientoProximoCount ?? 0"
+    descripcion="Caducidad en 30 días o menos"
+    icono="clock"
+    variante="amber"
+  />
+  <app-kpi-card
+    titulo="Total de productos"
+    [valor]="kpis()?.totalProductos ?? 0"
+    descripcion="Medicamentos registrados"
+    icono="box"
+    variante="slate"
+  />
+</div>
+
+<div class="grid gap-6 lg:grid-cols-2">
+  <app-top5-chart [data]="top5()" />
+  <app-alertas-inventario [alertas]="alertas()" />
+</div>
