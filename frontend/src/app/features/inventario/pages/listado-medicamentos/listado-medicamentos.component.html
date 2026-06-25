@@ -1,40 +1,41 @@
 <div class="mb-6 flex flex-wrap items-center justify-between gap-4">
   <div>
-    <h1 class="text-2xl font-bold text-slate-800">Inventario</h1>
-    <p class="text-sm text-slate-500">Gestiona el catálogo de medicamentos de la farmacia</p>
+    <h1 class="text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">Inventario</h1>
+    <p class="mt-1 text-sm font-medium text-slate-400">Gestiona el catálogo de medicamentos de la farmacia</p>
   </div>
 
   <button
     type="button"
     (click)="abrirNuevo()"
-    class="flex items-center gap-2 rounded-xl bg-gradient-to-r from-brand-500 to-accent-500 px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-brand-500/20 transition hover:opacity-90"
+    class="group flex items-center gap-2.5 rounded-2xl bg-[#E1111C] px-5 py-3 text-sm font-bold text-white shadow-[0_4px_20px_rgba(225,17,28,0.25)] transition-all duration-300 hover:bg-[#ff2430] hover:shadow-[0_6px_24px_rgba(225,17,28,0.35)] hover:-translate-y-0.5 active:scale-95"
   >
-    <app-icon name="plus" [size]="18" />
-    Nuevo medicamento
+    <app-icon name="plus" [size]="18" class="transition-transform group-hover:rotate-90 duration-200" />
+    <span>Nuevo medicamento</span>
   </button>
 </div>
 
-<div class="mb-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
-  <div class="mb-3 flex flex-wrap gap-3">
-    <div class="relative flex-1 min-w-[220px]">
+<div class="mb-5 rounded-3xl border border-slate-200/60 bg-white/80 p-5 shadow-sm backdrop-blur-xl">
+  
+  <div class="mb-4 flex flex-wrap items-center gap-2">
+    <div class="relative flex-1 min-w-[260px]">
       <app-icon
         name="search"
         [size]="16"
-        class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
+        class="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"
       />
       <input
         type="text"
         [(ngModel)]="filtroNombre"
         (keyup.enter)="buscar()"
-        placeholder="Buscar por nombre..."
-        class="w-full rounded-xl border border-slate-200 bg-slate-50 py-2.5 pl-9 pr-3 text-sm text-slate-700 outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-400/20"
+        placeholder="Buscar medicamentos por Nombre"
+        class="w-full rounded-2xl border border-slate-200/80 bg-slate-50/60 py-3 pl-11 pr-4 text-sm font-medium text-slate-800 placeholder-slate-400 outline-none transition-all duration-200 focus:border-[#E1111C]/30 focus:bg-white focus:ring-4 focus:ring-[#E1111C]/5"
       />
     </div>
 
     <button
       type="button"
       (click)="buscar()"
-      class="rounded-xl bg-slate-800 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-700"
+      class="rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-bold text-[#E1111C] shadow-sm transition-all duration-200 hover:bg-[#E1111C]/5 hover:border-[#E1111C]/20 active:scale-95"
     >
       Filtrar
     </button>

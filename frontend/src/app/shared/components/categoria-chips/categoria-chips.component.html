@@ -2,23 +2,34 @@
   <button
     type="button"
     (click)="seleccionar.emit(null)"
-    class="rounded-full px-3.5 py-1.5 text-xs font-semibold transition"
-    [class.bg-slate-800]="categoriaActiva === null"
-    [class.text-white]="categoriaActiva === null"
-    [class.bg-slate-100]="categoriaActiva !== null"
-    [class.text-slate-600]="categoriaActiva !== null"
+    class="rounded-full px-2 py-1 text-xs font-bold tracking-wide transition-all duration-200 active:scale-95 border"
+    [class.bg-[#E1111C]/5]="categoriaActiva === null"
+    [class.text-[#E1111C]]="categoriaActiva === null"
+    [class.border-[#E1111C]/20]="categoriaActiva === null"
+    [class.shadow-sm]="categoriaActiva === null"
+    [class.bg-slate-50/60]="categoriaActiva !== null"
+    [class.text-slate-500]="categoriaActiva !== null"
+    [class.border-slate-200/40]="categoriaActiva !== null"
+    [class.hover:bg-slate-100/80]="categoriaActiva !== null"
+    [class.hover:text-slate-800]="categoriaActiva !== null"
   >
     Todas
   </button>
+
   @for (categoria of categorias; track categoria) {
     <button
       type="button"
       (click)="seleccionar.emit(categoria)"
-      class="rounded-full px-3.5 py-1.5 text-xs font-semibold transition"
-      [class.bg-slate-800]="categoriaActiva === categoria"
-      [class.text-white]="categoriaActiva === categoria"
-      [class.bg-slate-100]="categoriaActiva !== categoria"
-      [class.text-slate-600]="categoriaActiva !== categoria"
+      class="rounded-full px-2 py-1 text-xs font-bold tracking-wide transition-all duration-200 active:scale-95 border"
+      [class.bg-[#E1111C]/5]="categoriaActiva === categoria"
+      [class.text-[#E1111C]]="categoriaActiva === categoria"
+      [class.border-[#E1111C]/20]="categoriaActiva === categoria"
+      [class.shadow-sm]="categoriaActiva === categoria"
+      [class.bg-slate-50/60]="categoriaActiva !== categoria"
+      [class.text-slate-500]="categoriaActiva !== categoria"
+      [class.border-slate-200/40]="categoriaActiva !== categoria"
+      [class.hover:bg-slate-100/80]="categoriaActiva !== categoria"
+      [class.hover:text-slate-800]="categoriaActiva !== categoria"
     >
       {{ categoria }}
     </button>

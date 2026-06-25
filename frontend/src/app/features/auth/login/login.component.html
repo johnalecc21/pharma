@@ -1,32 +1,29 @@
-<div
-  class="relative flex min-h-screen items-center justify-center overflow-hidden bg-slate-950 px-4"
->
-  <div
-    class="absolute -top-32 -left-32 h-96 w-96 rounded-full bg-brand-500/30 blur-3xl"
-  ></div>
-  <div
-    class="absolute -bottom-32 -right-32 h-96 w-96 rounded-full bg-accent-500/30 blur-3xl"
-  ></div>
+<div class="relative flex min-h-screen items-center justify-center overflow-hidden bg-gradient-to-br from-white via-slate-50 to-[#E1111C]/10 px-4 font-sans text-slate-800 antialiased">
+  
+  <div class="absolute -top-40 -left-40 h-[600px] w-[600px] rounded-full bg-slate-100/50 blur-3xl"></div>
+  <div class="absolute -bottom-20 -right-20 h-[500px] w-[500px] rounded-full bg-[#E1111C]/10 blur-3xl"></div>
 
   <form
-    class="relative z-10 w-full max-w-md rounded-3xl border border-white/10 bg-white/[0.06] p-8 shadow-2xl backdrop-blur-xl sm:p-10"
+    class="relative z-10 w-full max-w-md rounded-3xl border border-slate-200/60 bg-white/90 p-8 shadow-[0_20px_50px_-12px_rgba(225,17,28,0.06)] backdrop-blur-xl sm:p-10 transition-all duration-300"
     [formGroup]="form"
     (ngSubmit)="enviar()"
   >
     <div class="mb-8 flex flex-col items-center text-center">
       <div
-        class="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-400 to-accent-500 text-2xl shadow-lg shadow-brand-500/30"
+        class="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-[#E1111C] to-[#ff3b45] text-2xl text-white shadow-lg shadow-[#E1111C]/25 ring-4 ring-[#E1111C]/10"
       >
         💊
       </div>
-      <h1 class="text-2xl font-bold tracking-tight text-white">PharmaDash</h1>
-      <p class="mt-1 text-sm text-slate-400">Inicia sesión para gestionar tu farmacia</p>
+      <h1 class="bg-gradient-to-r from-slate-900 via-slate-800 to-[#E1111C] bg-clip-text text-2xl font-extrabold tracking-tight text-transparent">
+        PharmaDash
+      </h1>
+      <p class="mt-1 text-sm font-medium text-slate-400">Inicia sesión para gestionar tu farmacia</p>
     </div>
 
     <div class="space-y-4">
       <div>
-        <label for="email" class="mb-1.5 block text-sm font-medium text-slate-300">
-          Email
+        <label for="email" class="mb-1.5 block text-xs font-bold uppercase tracking-wider text-slate-400">
+          Email corporativo
         </label>
         <input
           id="email"
@@ -34,12 +31,12 @@
           formControlName="email"
           autocomplete="email"
           placeholder="tu@farmacia.com"
-          class="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white placeholder-slate-500 outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-400/30"
+          class="w-full rounded-2xl border border-slate-200 bg-slate-50/60 py-3 px-4 text-sm font-medium text-slate-800 placeholder-slate-400 outline-none transition-all duration-200 focus:border-[#E1111C]/40 focus:bg-white focus:ring-4 focus:ring-[#E1111C]/5"
         />
       </div>
 
       <div>
-        <label for="password" class="mb-1.5 block text-sm font-medium text-slate-300">
+        <label for="password" class="mb-1.5 block text-xs font-bold uppercase tracking-wider text-slate-400">
           Contraseña
         </label>
         <input
@@ -48,30 +45,29 @@
           formControlName="password"
           autocomplete="current-password"
           placeholder="••••••••"
-          class="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white placeholder-slate-500 outline-none transition focus:border-brand-400 focus:ring-2 focus:ring-brand-400/30"
+          class="w-full rounded-2xl border border-slate-200 bg-slate-50/60 py-3 px-4 text-sm font-medium text-slate-800 placeholder-slate-400 outline-none transition-all duration-200 focus:border-[#E1111C]/40 focus:bg-white focus:ring-4 focus:ring-[#E1111C]/5"
         />
       </div>
     </div>
 
     @if (errorMensaje()) {
-      <p
-        class="mt-4 rounded-lg border border-rose-500/30 bg-rose-500/10 px-3 py-2 text-sm text-rose-300"
-      >
-        {{ errorMensaje() }}
-      </p>
+      <div class="mt-4 flex items-center gap-2.5 rounded-2xl border border-rose-100 bg-rose-50/60 p-3.5 text-sm font-medium text-rose-600 shadow-[0_2px_8px_rgba(225,29,72,0.02)]">
+        <span class="flex h-5 w-5 shrink-0 items-center justify-center rounded-lg bg-rose-100 text-xs text-rose-600 font-bold">!</span>
+        <p>{{ errorMensaje() }}</p>
+      </div>
     }
 
     <button
       type="submit"
       [disabled]="cargando()"
-      class="mt-6 flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-brand-500 to-accent-500 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-brand-500/20 transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+      class="mt-6 flex w-full items-center justify-center gap-2.5 rounded-2xl bg-gradient-to-r from-[#E1111C] to-[#ff3b45] px-5 py-3.5 text-sm font-bold text-white shadow-lg shadow-[#E1111C]/20 transition-all duration-200 hover:opacity-95 hover:shadow-xl hover:shadow-[#E1111C]/25 active:scale-95 disabled:opacity-50 disabled:pointer-events-none"
     >
       @if (cargando()) {
         <span
           class="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white"
         ></span>
       }
-      {{ cargando() ? 'Ingresando...' : 'Ingresar' }}
+      <span>{{ cargando() ? 'Ingresando...' : 'Ingresar a la plataforma' }}</span>
     </button>
   </form>
 </div>
