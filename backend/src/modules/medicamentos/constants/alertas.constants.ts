@@ -1,0 +1,2 @@
+export const UMBRAL_STOCK_CRITICO = 10;
+export const UMBRAL_VENCIMIENTO_DIAS = 30;
