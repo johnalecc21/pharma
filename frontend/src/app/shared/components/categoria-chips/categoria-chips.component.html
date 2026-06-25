@@ -1,0 +1,26 @@
+<div class="flex flex-wrap gap-2">
+  <button
+    type="button"
+    (click)="seleccionar.emit(null)"
+    class="rounded-full px-3.5 py-1.5 text-xs font-semibold transition"
+    [class.bg-slate-800]="categoriaActiva === null"
+    [class.text-white]="categoriaActiva === null"
+    [class.bg-slate-100]="categoriaActiva !== null"
+    [class.text-slate-600]="categoriaActiva !== null"
+  >
+    Todas
+  </button>
+  @for (categoria of categorias; track categoria) {
+    <button
+      type="button"
+      (click)="seleccionar.emit(categoria)"
+      class="rounded-full px-3.5 py-1.5 text-xs font-semibold transition"
+      [class.bg-slate-800]="categoriaActiva === categoria"
+      [class.text-white]="categoriaActiva === categoria"
+      [class.bg-slate-100]="categoriaActiva !== categoria"
+      [class.text-slate-600]="categoriaActiva !== categoria"
+    >
+      {{ categoria }}
+    </button>
+  }
+</div>
