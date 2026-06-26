@@ -27,7 +27,7 @@ export class Venta {
   usuarioId: string;
 
   @Index()
-  @CreateDateColumn({ name: 'fecha' })
+  @CreateDateColumn({ name: 'fecha', type: 'timestamptz' })
   fecha: Date;
 
   @Column({ type: 'decimal', precision: 10, scale: 2 })

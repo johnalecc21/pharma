@@ -25,8 +25,8 @@
       />
       <input
         type="text"
-        [(ngModel)]="filtroNombre"
-        (keyup.enter)="buscar()"
+        [(ngModel)]="listado.filtroNombre"
+        (keyup.enter)="listado.buscar()"
         placeholder="Buscar medicamentos por Nombre"
         class="w-full rounded-2xl border border-slate-200/80 bg-slate-50/60 py-3 pl-11 pr-4 text-sm font-medium text-slate-800 placeholder-slate-400 outline-none transition-all duration-200 focus:border-[#E1111C]/30 focus:bg-white focus:ring-4 focus:ring-[#E1111C]/5"
       />
@@ -34,7 +34,7 @@
 
     <button
       type="button"
-      (click)="buscar()"
+      (click)="listado.buscar()"
       class="rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-bold text-[#E1111C] shadow-sm transition-all duration-200 hover:bg-[#E1111C]/5 hover:border-[#E1111C]/20 active:scale-95"
     >
       Filtrar
@@ -42,9 +42,9 @@
   </div>
 
   <app-categoria-chips
-    [categorias]="categorias()"
-    [categoriaActiva]="categoriaActiva()"
-    (seleccionar)="seleccionarCategoria($event)"
+    [categorias]="listado.categorias()"
+    [categoriaActiva]="listado.categoriaActiva()"
+    (seleccionar)="listado.seleccionarCategoria($event)"
   />
 </div>
 
@@ -62,7 +62,7 @@
       </tr>
     </thead>
     <tbody class="divide-y divide-slate-100">
-      @for (medicamento of medicamentos(); track medicamento.id) {
+      @for (medicamento of listado.medicamentos(); track medicamento.id) {
         <tr class="transition hover:bg-slate-50/80">
           <td class="px-5 py-3 font-medium text-slate-800">{{ medicamento.nombre }}</td>
           <td class="px-5 py-3 text-slate-500">{{ medicamento.categoria }}</td>
@@ -108,7 +108,7 @@
       } @empty {
         <tr>
           <td colspan="7" class="px-5 py-10 text-center text-slate-400">
-            {{ cargando() ? 'Cargando...' : 'No se encontraron medicamentos' }}
+            {{ listado.cargando() ? 'Cargando...' : 'No se encontraron medicamentos' }}
           </td>
         </tr>
       }
@@ -117,10 +117,10 @@
 
   <div class="border-t border-slate-100 px-3">
     <app-paginador
-      [pagina]="pagina()"
-      [totalPaginas]="totalPaginas()"
-      [total]="total()"
-      (cambiarPagina)="irAPagina($event)"
+      [pagina]="listado.pagina()"
+      [totalPaginas]="listado.totalPaginas()"
+      [total]="listado.total()"
+      (cambiarPagina)="listado.irAPagina($event)"
     />
   </div>
 </div>
