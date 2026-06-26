@@ -52,7 +52,6 @@ export class VentaService implements IVentaService {
       total: Number(venta.total),
       detalles: venta.detalles.map((detalle) => ({
         medicamentoId: detalle.medicamentoId,
-        // istanbul ignore next -- el medicamento siempre existe en el mapa: ya fue validado en cargarMedicamentos
         nombre: medicamentos.get(detalle.medicamentoId)?.nombre ?? '',
         cantidad: detalle.cantidad,
         precioUnitario: Number(detalle.precioUnitarioSnapshot),

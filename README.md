@@ -43,7 +43,8 @@ cd backend
 cp .env.example .env   # Configure your environment variables
 docker-compose up -d   # Start PostgreSQL
 npm install
-npm run start:dev
+npm run build
+npm run start
 ```
 
 ### Frontend
@@ -54,7 +55,12 @@ npm install
 npm start
 ```
 
+## Usuarios de prueba
+
+| Email | Contraseña | Rol |
+| admin@pharmadash.com | password123 | ADMINISTRADOR |
+| farmaceutico@pharmadash.com | password123 | FARMACÉUTICO |
+
 ## Branches
-- `main` — stable, production-ready code
-- `feat/backend` — NestJS API development
-- `feat/frontend` — Angular UI development
+- `main` 
+

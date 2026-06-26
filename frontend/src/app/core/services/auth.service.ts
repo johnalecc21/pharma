@@ -35,12 +35,6 @@ export class AuthService {
       .pipe(tap((respuesta) => this.establecerSesion(respuesta)));
   }
 
-  /**
-   * Renueva el access token usando el refresh token vigente (con rotación en backend).
-   * Las llamadas concurrentes comparten la misma petición HTTP en curso para evitar
-   * disparar múltiples refrescos simultáneos (y múltiples rotaciones) ante varios
-   * 401 a la vez.
-   */
   refrescarToken(): Observable<AuthResponse> {
     const refreshToken = this.tokenStorage.obtenerRefreshToken();
     if (!refreshToken) {
