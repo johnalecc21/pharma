@@ -1,5 +1,6 @@
-import { of, throwError } from 'rxjs';
+import { of } from 'rxjs';
 import { ListadoMedicamentosComponent } from './listado-medicamentos.component';
+import { MedicamentoListadoService } from '../../state/medicamento-listado.service';
 import { MedicamentoService } from '../../services/medicamento.service';
 import { Medicamento } from '../../models/medicamento.model';
 
@@ -20,6 +21,7 @@ function crearMedicamento(id: string): Medicamento {
 
 describe('ListadoMedicamentosComponent', () => {
   let medicamentoService: jest.Mocked<MedicamentoService>;
+  let listado: MedicamentoListadoService;
   let component: ListadoMedicamentosComponent;
   const paginado = { data: [crearMedicamento('med-1')], total: 1, pagina: 1, limite: 8, totalPaginas: 1 };
 
@@ -33,49 +35,17 @@ describe('ListadoMedicamentosComponent', () => {
       listarCategorias: jest.fn().mockReturnValue(of(['Analgésicos'])),
     } as unknown as jest.Mocked<MedicamentoService>;
 
-    component = new ListadoMedicamentosComponent(medicamentoService);
+    listado = new MedicamentoListadoService(medicamentoService);
+    component = new ListadoMedicamentosComponent(listado);
   });
 
-  it('ngOnInit carga categorías y medicamentos', () => {
+  it('ngOnInit inicializa el listado (categorías y medicamentos)', () => {
     component.ngOnInit();
 
-    expect(component.categorias()).toEqual(['Analgésicos']);
-    expect(component.medicamentos()).toHaveLength(1);
-    expect(component.total()).toBe(1);
-    expect(component.cargando()).toBe(false);
-  });
-
-  it('marca cargando en false si la carga falla', () => {
-    medicamentoService.listar.mockReturnValue(throwError(() => new Error('fallo')));
-
-    component.ngOnInit();
-
-    expect(component.cargando()).toBe(false);
-  });
-
-  it('buscar reinicia a la página 1 y recarga', () => {
-    component.pagina.set(3);
-
-    component.buscar();
-
-    expect(component.pagina()).toBe(1);
-    expect(medicamentoService.listar).toHaveBeenCalled();
-  });
-
-  it('seleccionarCategoria actualiza el filtro y recarga desde la página 1', () => {
-    component.seleccionarCategoria('Analgésicos');
-
-    expect(component.categoriaActiva()).toBe('Analgésicos');
-    expect(medicamentoService.listar).toHaveBeenCalledWith(
-      expect.objectContaining({ categoria: 'Analgésicos', pagina: 1 }),
-    );
-  });
-
-  it('irAPagina cambia de página y recarga', () => {
-    component.irAPagina(2);
-
-    expect(component.pagina()).toBe(2);
-    expect(medicamentoService.listar).toHaveBeenCalledWith(expect.objectContaining({ pagina: 2 }));
+    expect(listado.categorias()).toEqual(['Analgésicos']);
+    expect(listado.medicamentos()).toHaveLength(1);
+    expect(listado.total()).toBe(1);
+    expect(listado.cargando()).toBe(false);
   });
 
   it('abrirNuevo y cerrarModal controlan el estado del modal', () => {
@@ -94,7 +64,7 @@ describe('ListadoMedicamentosComponent', () => {
     expect(component.medicamentoIdEnEdicion).toBe('med-1');
   });
 
-  it('guardadoExitoso cierra el modal y recarga', () => {
+  it('guardadoExitoso cierra el modal y recarga el listado', () => {
     component.abrirNuevo();
 
     component.guardadoExitoso();
@@ -103,7 +73,7 @@ describe('ListadoMedicamentosComponent', () => {
     expect(medicamentoService.listar).toHaveBeenCalled();
   });
 
-  it('eliminar no llama al servicio si el usuario cancela la confirmación', () => {
+  it('eliminar no llama al servicio de listado si el usuario cancela la confirmación', () => {
     jest.spyOn(window, 'confirm').mockReturnValue(false);
 
     component.eliminar(crearMedicamento('med-1'));
@@ -111,7 +81,7 @@ describe('ListadoMedicamentosComponent', () => {
     expect(medicamentoService.eliminar).not.toHaveBeenCalled();
   });
 
-  it('eliminar llama al servicio y recarga si el usuario confirma', () => {
+  it('eliminar delega en el servicio de listado si el usuario confirma', () => {
     jest.spyOn(window, 'confirm').mockReturnValue(true);
 
     component.eliminar(crearMedicamento('med-1'));
